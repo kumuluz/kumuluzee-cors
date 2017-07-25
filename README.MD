@@ -1,0 +1,96 @@
+# KumuluzEE CORS
+[![Build Status](https://img.shields.io/travis/kumuluz/kumuluzee-cors/master.svg?style=flat)](https://travis-ci.org/kumuluz/kumuluzee-cors)
+
+> KumuluzEE CORS filter extension for the Kumuluz EE microservice framework. 
+
+KumuluzEE CORS is CORS filter extension for the KumuluzEE microservice framework. It provides support for fitting Cross-Origin Resource 
+Sharing support to Java web applications. 
+ 
+CORS supports:
+
+ * **Browser script perspective**: Allowing cross-domain requests, which are subject to tihter controls on the types of data that is exchanged.
+  Cookies, for instance, are blocked unless specifically requested by the XHR author and allowed by the cross-domain web-service.
+ * **Web service perspective**: By utilising the origin URL reported by the browser the target cross-domain web service can determine, based 
+ on its origin policy, wheather to allow or deny the request.
+ 
+CORS specification is available at [CORS](https://www.w3.org/TR/cors/).
+## Usage
+
+You can enable the KumuluzEE CORS filter by adding the following dependency:
+```xml
+<dependency>
+    <groupId>com.kumuluz.ee.cors</groupId>
+    <artifactId>kumuluzee-cors</artifactId>
+    <version>${kumuluzee-cors.version}</version>
+</dependency>
+```
+
+### CORS filter configuration
+
+When kumuluzee-cors dependency is included in the project CORS filter is initialized with default configuration (see below).
+To provide custom configuration for CORS filter you need to provide cors-filter configuration section in preferred config source 
+(i.e. config.yaml, etcd etc.).  
+ 
+The following configuration parameters can be set for CORS filter:
+
+  * **allow-generic-http-requests** {true|false} defaults to true.
+    If true generic HTTP requests will be allowed to pass through the filter, else only valid and accepted CORS requests will be allowed (strict CORS filtering).
+  
+  * **allow-origin** {"*"|origin-list} defaults to *.
+    Whitespace-separated list of origins that the CORS filter must allow. Requests from origins not included here will be refused with an HTTP 403 "Forbidden" response. If set to * (asterisk) any origin will be allowed.
+    
+  * **allow-subdomains** {true|false} defaults to false.
+    If true the CORS filter will allow requests from any origin which is a subdomain origin of the allowed origins. A subdomain is matched by comparing its scheme and suffix (host name / IP address and optional port number).
+    
+  * **supported-methods** {method-list} defaults to "GET, POST, HEAD, OPTIONS".
+    List of the supported HTTP methods. These are advertised through the Access-Control-Allow-Methods header and must also be implemented by the actual CORS web service. Requests for methods not included here will be refused by the CORS filter with an HTTP 405 "Method not allowed" response.
+    
+  * **supported-headers** {"*"|header-list} defaults to *.
+    The names of the supported author request headers. These are advertised through the Access-Control-Allow-Headers header.
+    If the configuration property value is set to * (asterisk) any author request header will be allowed. The CORS Filter implements this by simply echoing the requested value back to the browser.
+    
+    What is an author request header? This any custom header set by the browser JavaScript application through the XMLHttpRequest.setRequestHeader() method.
+    
+  * **exposed-headers** {header-list} defaults to empty list.
+    List of the response headers other than simple response headers that the browser should expose to the author of the cross-domain request through the XMLHttpRequest.getResponseHeader() method. The CORS filter supplies this information through the Access-Control-Expose-Headers header.
+                    
+  * **supports-credentials** {true|false} defaults to true.
+    Indicates whether user credentials, such as cookies, HTTP authentication or client-side certificates, are supported. The CORS filter uses this value in constructing the Access-Control-Allow-Credentials header.
+    
+  * **max-age** {int} defaults to -1 (unspecified).
+    Indicates how long the results of a preflight request can be cached by the web browser, in seconds. If -1 unspecified. This information is passed to the browser via the Access-Control-Max-Age header.
+
+  * **tag-requests** {true|false} defaults to false (no tagging).
+    Enables HTTP servlet request tagging to provide CORS information to downstream handlers (filters and/or servlets).
+  
+
+Example CORS filter configuration (config.yaml):
+```yaml
+kumuluzee:
+  servlet:
+    cors-filter:
+      allow-generic-http-requests: true
+      allow-origin: *
+```
+
+Remember to restart your web application or server after changing the CORS configuration!
+
+## Changelog
+
+Recent changes can be viewed on Github on the [Releases Page](https://github.com/kumuluz/kumuluzee-cors/releases)
+
+## Contribute
+
+See the [contributing docs](https://github.com/kumuluz/kumuluzee-cors/blob/master/CONTRIBUTING.md)
+
+When submitting an issue, please follow the 
+[guidelines](https://github.com/kumuluz/kumuluzee-cors/blob/master/CONTRIBUTING.md#bugs).
+
+When submitting a bugfix, write a test that exposes the bug and fails before applying your fix. Submit the test 
+alongside the fix.
+
+When submitting a new feature, add tests that cover the feature.
+
+## License
+
+MIT
