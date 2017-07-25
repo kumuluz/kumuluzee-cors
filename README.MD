@@ -3,7 +3,7 @@
 
 > KumuluzEE CORS filter extension for the Kumuluz EE microservice framework. 
 
-KumuluzEE CORS is CORS filter extension for the KumuluzEE microservice framework. It provides support for fitting Cross-Origin Resource 
+KumuluzEE CORS is CORS filter extension for the KumuluzEE microservice framework. It enables fitting of Cross-Origin Resource 
 Sharing support to Java web applications. 
  
 CORS supports:
