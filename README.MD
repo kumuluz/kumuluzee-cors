@@ -71,7 +71,7 @@ enabled.
 
 **Application class**
 
-```
+```java
 @ApplicationPath("/v1")
 @CrossOrigin
 public class MyApplication extends Application {
@@ -80,7 +80,7 @@ public class MyApplication extends Application {
 
 **Resource class and method**
 
-```
+```java
 @RequestScoped
 @Path("/myresource")
 @Consumes(MediaType.APPLICATION_JSON)
