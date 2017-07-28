@@ -108,17 +108,21 @@ The following configuration parameters can be set for CORS filter:
   
     If true generic HTTP requests will be allowed to pass through the filter, else only valid and accepted CORS requests will be allowed (strict CORS filtering).
   
+  
   * **allow-origin** {"*"|origin-list} defaults to *.
   
     Whitespace-separated list of origins that the CORS filter must allow. Requests from origins not included here will be refused with an HTTP 403 "Forbidden" response. If set to * (asterisk) any origin will be allowed.
+    
     
   * **allow-subdomains** {true|false} defaults to false.
   
     If true the CORS filter will allow requests from any origin which is a subdomain origin of the allowed origins. A subdomain is matched by comparing its scheme and suffix (host name / IP address and optional port number).
     
+    
   * **supported-methods** {method-list} defaults to "GET, POST, HEAD, OPTIONS".
   
     List of the supported HTTP methods. These are advertised through the Access-Control-Allow-Methods header and must also be implemented by the actual CORS web service. Requests for methods not included here will be refused by the CORS filter with an HTTP 405 "Method not allowed" response.
+    
     
   * **supported-headers** {"*"|header-list} defaults to *.
   
@@ -127,17 +131,21 @@ The following configuration parameters can be set for CORS filter:
     
     What is an author request header? This any custom header set by the browser JavaScript application through the XMLHttpRequest.setRequestHeader() method.
     
+    
   * **exposed-headers** {header-list} defaults to empty list.
   
     List of the response headers other than simple response headers that the browser should expose to the author of the cross-domain request through the XMLHttpRequest.getResponseHeader() method. The CORS filter supplies this information through the Access-Control-Expose-Headers header.
+     
                     
   * **supports-credentials** {true|false} defaults to true.
   
     Indicates whether user credentials, such as cookies, HTTP authentication or client-side certificates, are supported. The CORS filter uses this value in constructing the Access-Control-Allow-Credentials header.
     
+    
   * **max-age** {int} defaults to -1 (unspecified).
   
     Indicates how long the results of a preflight request can be cached by the web browser, in seconds. If -1 unspecified. This information is passed to the browser via the Access-Control-Max-Age header.
+
 
   * **tag-requests** {true|false} defaults to false (no tagging).
   
