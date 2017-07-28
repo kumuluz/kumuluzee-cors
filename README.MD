@@ -157,7 +157,7 @@ Example CORS filter configuration (config.yaml):
 kumuluzee:
   servlet:
     cors-filter:
-      allow-generic-http-requests: true
+      allow-generic-http-requests: false
       allow-origin: *
 ```
 
