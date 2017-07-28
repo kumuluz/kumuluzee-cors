@@ -20,16 +20,82 @@ You can enable the KumuluzEE CORS filter by adding the following dependency:
 ```xml
 <dependency>
     <groupId>com.kumuluz.ee.cors</groupId>
-    <artifactId>kumuluzee-cors</artifactId>
+    <artifactId>kumuluzee-cors-core</artifactId>
     <version>${kumuluzee-cors.version}</version>
 </dependency>
 ```
 
 ### CORS filter configuration
 
-When kumuluzee-cors dependency is included in the project CORS filter is initialized with default configuration (see below).
-To provide custom configuration for CORS filter you need to provide cors-filter configuration section in preferred config source 
-(i.e. config.yaml, etcd etc.).  
+When kumuluzee-cors-core dependnecy is included in the project, CORS filter can be configured in two ways: using **@CrossOrigin** annotation 
+or using **servlet filter** by providing cors-filter configuration section in prefered config source (i.e. config.yaml, etcd etc.).
+
+#### @CrossOrigin annotation
+
+Annotation can be put on the following classes of the JAX-RS application: 
+* Application class (with @ApplicationPath annotation)
+* Resource classes (classes with annotation @Path)
+* Resource operations
+
+If @CrossOrigin annotation is provided on the Application class, all resources inherit the Cross Origin configuration. Configuration can 
+be overriden by applying @CrossOrigin annotation on the resource class or method of the resource class.
+
+If @CrossOrigin annotation is not provided on the Application class, only resource classes or methods with @CrossOrigin annotation have CORS Filter 
+enabled.
+
+##### @CrossOrigin annotation parameters
+
+ * **allowGenericHttpRequests** default: *true*
+
+ * **allowOrigin** default: "*"
+
+ * **allowSubdomains** default: *false*
+
+ * **supportedMethods** default: *"GET, POST, HEAD, OPTIONS"*
+
+ * **supportedHeaders** default: "*"
+
+ * **exposedHeaders** default: ""
+
+ * **supportsCredentials** default: *true*
+
+ * **maxAge** default: *-1* (int)
+
+ * **tagRequests** default: *false*
+
+##### Example of using @CrossOrigin annotation
+
+**Application class**
+
+```
+@ApplicationPath("/v1")
+@CrossOrigin
+public class MyApplication extends Application {
+}
+```
+
+**Resource class and method**
+
+```
+@RequestScoped
+@Path("/myresource")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+@CrossOrigin(allowOrigin = "http://my.origin.com")
+public class MyResource {
+    ...
+    
+    @GET
+    @Path("/test")
+    @CrossOrigin(allowOrigin="http://my-test.origin.com")
+    public Response test() {
+        ...
+    }
+```
+
+#### CORS servlet filter
+
+CORS servlet filter is enabled by providing cors-filter section in the config source. (!Important: If @CrossOrigin annotation is used in the application, servlet filter will not be initialized, annotations will take priority).
  
 The following configuration parameters can be set for CORS filter:
 
@@ -72,6 +138,8 @@ kumuluzee:
       allow-generic-http-requests: true
       allow-origin: *
 ```
+
+CORS servlet filter should be used for Servlet applications. It can also be used for the JAX-RS applications, but no @CrossOrigin annotation should be used.
 
 Remember to restart your web application or server after changing the CORS configuration!
 

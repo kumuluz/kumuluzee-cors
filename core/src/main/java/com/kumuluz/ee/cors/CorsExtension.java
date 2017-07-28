@@ -1,6 +1,5 @@
 package com.kumuluz.ee.cors;
 
-
 import com.kumuluz.ee.common.Extension;
 import com.kumuluz.ee.common.ServletServer;
 import com.kumuluz.ee.common.config.EeConfig;
@@ -10,9 +9,12 @@ import com.kumuluz.ee.common.dependencies.EeExtensionDef;
 import com.kumuluz.ee.common.dependencies.EeExtensionType;
 import com.kumuluz.ee.common.wrapper.KumuluzServerWrapper;
 import com.kumuluz.ee.configuration.utils.ConfigurationUtil;
-import com.kumuluz.ee.cors.common.config.CorsConfig;
+import com.kumuluz.ee.cors.config.CorsConfig;
+import com.kumuluz.ee.cors.filters.DynamicCorsFilter;
 import com.thetransactioncompany.cors.CORSFilter;
 
+import java.io.File;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -41,7 +43,9 @@ public class CorsExtension implements Extension {
 
             CorsConfig corsConfig = null;
 
-            if (corsFilterOpt.isPresent()) {
+            Boolean crossOriginAnnotationsPresent = isCrossOriginAnnotationUsed();
+
+            if (corsFilterOpt.isPresent() && !crossOriginAnnotationsPresent) {
 
                 log.info("CORS filter configuration detected.");
 
@@ -126,10 +130,30 @@ public class CorsExtension implements Extension {
                 }
             }
 
-            servletServer.registerFilter(CORSFilter.class, pathSpec, corsFilterParams);
+            if (!crossOriginAnnotationsPresent && corsConfig != null) {
+                servletServer.registerFilter(CORSFilter.class, pathSpec, corsFilterParams);
+
+            } else {
+                servletServer.registerFilter(DynamicCorsFilter.class, "/*");
+            }
 
             log.info("Initialized CORS filter.");
         }
+    }
+
+    private Boolean isCrossOriginAnnotationUsed() {
+        ClassLoader classLoader = getClass().getClassLoader();
+        URL fileUrl = classLoader.getResource("META-INF/resources/java.lang.Object");
+
+        if (fileUrl != null) {
+            File file = new File(fileUrl.getFile());
+
+            if (file.length() != 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void load() {

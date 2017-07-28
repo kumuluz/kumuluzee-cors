@@ -1,4 +1,4 @@
-package com.kumuluz.ee.cors.common.config;
+package com.kumuluz.ee.cors.config;
 
 /**
  * Created by zvoneg on 24/07/17.
@@ -127,5 +127,20 @@ public class CorsConfig {
 
     public void setPathSpec(String pathSpec) {
         this.pathSpec = pathSpec;
+    }
+
+    public CorsConfig applyPermitDefaultValues() {
+
+        this.allowGenericHttpRequests = true;
+        this.allowOrigin = "*";
+        this.allowSubdomains = false;
+        this.supportedMethods = "GET, POST, HEAD, OPTIONS";
+        this.supportedHeaders = "*";
+        this.exposedHeaders = "";
+        this.supportsCredentials = true;
+        this.maxAge = -1;
+        this.tagRequests = false;
+
+        return this;
     }
 }
