@@ -13,6 +13,7 @@ CORS supports:
  * **Web service perspective**: By utilising the origin URL reported by the browser the target cross-domain web service can determine, based 
  on its origin policy, wheather to allow or deny the request.
  
+ 
 CORS specification is available at [CORS](https://www.w3.org/TR/cors/).
 ## Usage
 
@@ -30,6 +31,7 @@ You can enable the KumuluzEE CORS filter by adding the following dependency:
 When kumuluzee-cors-core dependnecy is included in the project, CORS filter can be configured in two ways: using **@CrossOrigin** annotation 
 or using **servlet filter** by providing cors-filter configuration section in prefered config source (i.e. config.yaml, etcd etc.).
 
+
 #### @CrossOrigin annotation
 
 Annotation can be put on the following classes of the JAX-RS application: 
@@ -42,6 +44,7 @@ be overriden by applying @CrossOrigin annotation on the resource class or method
 
 If @CrossOrigin annotation is not provided on the Application class, only resource classes or methods with @CrossOrigin annotation have CORS Filter 
 enabled.
+
 
 ##### @CrossOrigin annotation parameters
 
@@ -62,6 +65,7 @@ enabled.
  * **maxAge** default: *-1* (int)
 
  * **tagRequests** default: *false*
+
 
 ##### Example of using @CrossOrigin annotation
 
@@ -93,9 +97,10 @@ public class MyResource {
     }
 ```
 
+
 #### CORS servlet filter
 
-CORS servlet filter is enabled by providing cors-filter section in the config source. (!Important: If @CrossOrigin annotation is used in the application, servlet filter will not be initialized, annotations will take priority).
+CORS servlet filter is enabled by providing cors-filter section in the config source. (**!Important**: If @CrossOrigin annotation is used in the application, servlet filter will not be initialized, annotations will take priority).
  
 The following configuration parameters can be set for CORS filter:
 
@@ -143,9 +148,11 @@ CORS servlet filter should be used for Servlet applications. It can also be used
 
 Remember to restart your web application or server after changing the CORS configuration!
 
+
 ## Changelog
 
 Recent changes can be viewed on Github on the [Releases Page](https://github.com/kumuluz/kumuluzee-cors/releases)
+
 
 ## Contribute
 
@@ -158,6 +165,7 @@ When submitting a bugfix, write a test that exposes the bug and fails before app
 alongside the fix.
 
 When submitting a new feature, add tests that cover the feature.
+
 
 ## License
 
