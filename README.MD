@@ -71,7 +71,7 @@ enabled.
 
 **Application class**
 
-```
+```java
 @ApplicationPath("/v1")
 @CrossOrigin
 public class MyApplication extends Application {
@@ -80,7 +80,7 @@ public class MyApplication extends Application {
 
 **Resource class and method**
 
-```
+```java
 @RequestScoped
 @Path("/myresource")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -157,7 +157,7 @@ Example CORS filter configuration (config.yaml):
 kumuluzee:
   servlet:
     cors-filter:
-      allow-generic-http-requests: true
+      allow-generic-http-requests: false
       allow-origin: *
 ```
 
