@@ -1,1 +1,2 @@
-com.kumuluz.ee.cors.processor.CrossOriginAnnotationProcessor
+com.kumuluz.ee.cors.processor.JaxRsCrossOriginAnnotationProcessor
+com.kumuluz.ee.cors.processor.ServletCrossOriginAnnotationProcessor

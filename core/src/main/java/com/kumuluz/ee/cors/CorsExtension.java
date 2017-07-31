@@ -3,10 +3,7 @@ package com.kumuluz.ee.cors;
 import com.kumuluz.ee.common.Extension;
 import com.kumuluz.ee.common.ServletServer;
 import com.kumuluz.ee.common.config.EeConfig;
-import com.kumuluz.ee.common.dependencies.EeComponentDependency;
-import com.kumuluz.ee.common.dependencies.EeComponentType;
-import com.kumuluz.ee.common.dependencies.EeExtensionDef;
-import com.kumuluz.ee.common.dependencies.EeExtensionType;
+import com.kumuluz.ee.common.dependencies.*;
 import com.kumuluz.ee.common.wrapper.KumuluzServerWrapper;
 import com.kumuluz.ee.configuration.utils.ConfigurationUtil;
 import com.kumuluz.ee.cors.config.CorsConfig;
@@ -24,7 +21,7 @@ import java.util.logging.Logger;
  * @author Zvone Gazvoda
  */
 @EeExtensionDef(name = "Cors", type = EeExtensionType.CORS)
-@EeComponentDependency(EeComponentType.SERVLET)
+@EeComponentDependencies({@EeComponentDependency(EeComponentType.SERVLET)})
 public class CorsExtension implements Extension {
 
     private static final Logger log = Logger.getLogger(CorsExtension.class.getName());
@@ -43,9 +40,9 @@ public class CorsExtension implements Extension {
 
             CorsConfig corsConfig = null;
 
-            Boolean crossOriginAnnotationsPresent = isCrossOriginAnnotationUsed();
+            boolean isCrossOriginAnnotationsPresent = isCrossOriginAnnotationUsed();
 
-            if (corsFilterOpt.isPresent() && !crossOriginAnnotationsPresent) {
+            if (corsFilterOpt.isPresent() && !isCrossOriginAnnotationsPresent) {
 
                 log.info("CORS filter configuration detected.");
 
@@ -130,11 +127,16 @@ public class CorsExtension implements Extension {
                 }
             }
 
-            if (!crossOriginAnnotationsPresent && corsConfig != null) {
+            boolean isJaxRS = eeConfig.getEeComponents().stream().anyMatch(e -> e.getType().equals(EeComponentType.JAX_RS));
+
+            if (!isCrossOriginAnnotationsPresent && corsConfig != null) {
                 servletServer.registerFilter(CORSFilter.class, pathSpec, corsFilterParams);
 
             } else {
-                servletServer.registerFilter(DynamicCorsFilter.class, "/*");
+                Map<String, String> dynamicCorsFilterParams = new HashMap<>();
+                dynamicCorsFilterParams.put("isJaxRS", Boolean.toString(isJaxRS));
+
+                servletServer.registerFilter(DynamicCorsFilter.class, "/*", dynamicCorsFilterParams);
             }
 
             log.info("Initialized CORS filter.");
