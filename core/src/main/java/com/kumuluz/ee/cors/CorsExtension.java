@@ -36,7 +36,7 @@ public class CorsExtension implements Extension {
 
             ConfigurationUtil cfg = ConfigurationUtil.getInstance();
 
-            Optional<String> corsFilterOpt = cfg.get("kumuluzee.servlet.cors-filter");
+            Optional<String> corsFilterOpt = cfg.get("kumuluzee.cors-filter.servlet");
 
             CorsConfig corsConfig = null;
 
@@ -48,34 +48,34 @@ public class CorsExtension implements Extension {
 
                 corsConfig = new CorsConfig();
 
-                Optional<String> allowGenericHttpRequests = cfg.get("kumuluzee.servlet.cors-filter.allow-generic-http-requests");
+                Optional<String> allowGenericHttpRequests = cfg.get("kumuluzee.cors-filter.servlet.allow-generic-http-requests");
                 allowGenericHttpRequests.ifPresent(corsConfig::setAllowGenericHttpRequests);
 
-                Optional<String> allowOrigin = cfg.get("kumuluzee.servlet.cors-filter.allow-origin");
+                Optional<String> allowOrigin = cfg.get("kumuluzee.cors-filter.servlet.allow-origin");
                 allowOrigin.ifPresent(corsConfig::setAllowOrigin);
 
-                Optional<String> allowSubdomains = cfg.get("kumuluzee.servlet.cors-filter.allow-subdomains");
+                Optional<String> allowSubdomains = cfg.get("kumuluzee.cors-filter.servlet.allow-subdomains");
                 allowSubdomains.ifPresent(corsConfig::setAllowSubdomains);
 
-                Optional<String> supportedMethods = cfg.get("kumuluzee.servlet.cors-filter.supported-methods");
+                Optional<String> supportedMethods = cfg.get("kumuluzee.cors-filter.servlet.supported-methods");
                 supportedMethods.ifPresent(corsConfig::setSupportedMethods);
 
-                Optional<String> supportedHeaders = cfg.get("kumuluzee.servlet.cors-filter.supported-headers");
+                Optional<String> supportedHeaders = cfg.get("kumuluzee.cors-filter.servlet.supported-headers");
                 supportedHeaders.ifPresent(corsConfig::setSupportedHeaders);
 
-                Optional<String> exposedHeaders = cfg.get("kumuluzee.servlet.cors-filter.exposed-headers");
+                Optional<String> exposedHeaders = cfg.get("kumuluzee.cors-filter.servlet.exposed-headers");
                 exposedHeaders.ifPresent(corsConfig::setExposedHeaders);
 
-                Optional<String> supportsCredentials = cfg.get("kumuluzee.servlet.cors-filter.supports-credentials");
+                Optional<String> supportsCredentials = cfg.get("kumuluzee.cors-filter.servlet.supports-credentials");
                 supportsCredentials.ifPresent(corsConfig::setSupportsCredentials);
 
-                Optional<String> maxAge = cfg.get("kumuluzee.servlet.cors-filter.max-age");
+                Optional<String> maxAge = cfg.get("kumuluzee.cors-filter.servlet.max-age");
                 maxAge.ifPresent(corsConfig::setMaxAge);
 
-                Optional<String> tagRequest = cfg.get("kumuluzee.servlet.cors-filter.tag-requests");
+                Optional<String> tagRequest = cfg.get("kumuluzee.cors-filter.servlet.tag-requests");
                 tagRequest.ifPresent(corsConfig::setTagRequests);
 
-                Optional<String> urlPattern = cfg.get("kumuluzee.servlet.cors-filter.url-pattern");
+                Optional<String> urlPattern = cfg.get("kumuluzee.cors-filter.servlet.url-pattern");
                 urlPattern.ifPresent(corsConfig::setPathSpec);
             }
 
@@ -145,10 +145,19 @@ public class CorsExtension implements Extension {
 
     private Boolean isCrossOriginAnnotationUsed() {
         ClassLoader classLoader = getClass().getClassLoader();
-        URL fileUrl = classLoader.getResource("META-INF/resources/java.lang.Object");
+        URL resourceFileUrl = classLoader.getResource("META-INF/resources/java.lang.Object");
+        URL servletFileUrl = classLoader.getResource("META-INF/servlets/java.lang.Object");
 
-        if (fileUrl != null) {
-            File file = new File(fileUrl.getFile());
+        if (resourceFileUrl != null) {
+            File file = new File(resourceFileUrl.getFile());
+
+            if (file.length() != 0) {
+                return true;
+            }
+        }
+
+        if (servletFileUrl != null) {
+            File file = new File(servletFileUrl.getFile());
 
             if (file.length() != 0) {
                 return true;

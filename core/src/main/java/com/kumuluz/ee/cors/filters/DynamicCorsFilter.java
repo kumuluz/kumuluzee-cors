@@ -85,70 +85,71 @@ public class DynamicCorsFilter implements Filter {
 
     private CORSConfiguration getMaxMatchingUrlPatternConfig(String path) {
 
-        String key = null;
+        CorsConfig corsConfig = corsConfigs.get(path);
 
-        for (String uriTemplate : corsConfigs.keySet()) {
-            if (new UriTemplate(uriTemplate).match(path, new ArrayList<>())) {
-                key = uriTemplate;
-                break;
+        if (corsConfig == null) {
+            String key = null;
+            for (String uriTemplate : corsConfigs.keySet()) {
+                if (new UriTemplate(uriTemplate).match(path, new ArrayList<>())) {
+                    key = uriTemplate;
+                    break;
+                }
             }
+
+            corsConfig = corsConfigs.get(key);
         }
 
-        if (key != null) {
-            CorsConfig corsConfig = corsConfigs.get(key);
+        try {
 
-            try {
+            Map<String, String> corsFilterParams = new HashMap<>();
 
-                Map<String, String> corsFilterParams = new HashMap<>();
+            if (corsConfig != null) {
 
-                if (corsConfig != null) {
-
-                    if (corsConfig.getAllowGenericHttpRequests() != null) {
-                        corsFilterParams.put("cors.allowGenericHttpRequests", corsConfig.getAllowGenericHttpRequests().toString
-                                ());
-                    }
-
-                    if (corsConfig.getAllowOrigin() != null) {
-                        corsFilterParams.put("cors.allowOrigin", corsConfig.getAllowOrigin());
-                    }
-
-                    if (corsConfig.getAllowSubdomains() != null) {
-                        corsFilterParams.put("cors.allowSubdomains", corsConfig.getAllowSubdomains().toString());
-                    }
-
-                    if (corsConfig.getSupportedMethods() != null) {
-                        corsFilterParams.put("cors.supportedMethods", corsConfig.getSupportedMethods());
-                    }
-
-                    if (corsConfig.getSupportedHeaders() != null) {
-                        corsFilterParams.put("cors.supportedHeaders", corsConfig.getSupportedHeaders());
-                    }
-
-                    if (corsConfig.getExposedHeaders() != null) {
-                        corsFilterParams.put("cors.exposedHeaders", corsConfig.getExposedHeaders());
-                    }
-
-                    if (corsConfig.getSupportsCredentials() != null) {
-                        corsFilterParams.put("cors.supportsCredentials", corsConfig.getSupportsCredentials().toString());
-                    }
-
-                    if (corsConfig.getMaxAge() != null) {
-                        corsFilterParams.put("cors.maxAge", corsConfig.getMaxAge().toString());
-                    }
-
-                    if (corsConfig.getTagRequests() != null) {
-                        corsFilterParams.put("cors.tagRequests", corsConfig.getTagRequests().toString());
-                    }
-
-                    Properties properties = new Properties();
-                    properties.putAll(corsFilterParams);
-
-                    return new CORSConfiguration(properties);
+                if (corsConfig.getAllowGenericHttpRequests() != null) {
+                    corsFilterParams.put("cors.allowGenericHttpRequests", corsConfig.getAllowGenericHttpRequests().toString
+                            ());
                 }
 
-            } catch (CORSConfigurationException e) {
-                LOG.warning(e.getMessage());
+                if (corsConfig.getAllowOrigin() != null) {
+                    corsFilterParams.put("cors.allowOrigin", corsConfig.getAllowOrigin());
+                }
+
+                if (corsConfig.getAllowSubdomains() != null) {
+                    corsFilterParams.put("cors.allowSubdomains", corsConfig.getAllowSubdomains().toString());
+                }
+
+                if (corsConfig.getSupportedMethods() != null) {
+                    corsFilterParams.put("cors.supportedMethods", corsConfig.getSupportedMethods());
+                }
+
+                if (corsConfig.getSupportedHeaders() != null) {
+                    corsFilterParams.put("cors.supportedHeaders", corsConfig.getSupportedHeaders());
+                }
+
+                if (corsConfig.getExposedHeaders() != null) {
+                    corsFilterParams.put("cors.exposedHeaders", corsConfig.getExposedHeaders());
+                }
+
+                if (corsConfig.getSupportsCredentials() != null) {
+                    corsFilterParams.put("cors.supportsCredentials", corsConfig.getSupportsCredentials().toString());
+                }
+
+                if (corsConfig.getMaxAge() != null) {
+                    corsFilterParams.put("cors.maxAge", corsConfig.getMaxAge().toString());
+                }
+
+                if (corsConfig.getTagRequests() != null) {
+                    corsFilterParams.put("cors.tagRequests", corsConfig.getTagRequests().toString());
+                }
+
+                Properties properties = new Properties();
+                properties.putAll(corsFilterParams);
+
+                return new CORSConfiguration(properties);
             }
+
+        } catch (CORSConfigurationException e) {
+            LOG.warning(e.getMessage());
         }
 
         return null;

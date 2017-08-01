@@ -12,12 +12,7 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
 import javax.servlet.annotation.WebServlet;
-import javax.tools.FileObject;
-import javax.tools.StandardLocation;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -63,7 +58,7 @@ public class ServletCrossOriginAnnotationProcessor extends AbstractProcessor {
         });
 
         try {
-            writeFile(servletElementNames, "META-INF/servlets/java.lang.Object");
+            AnnotationProcessorUtil.writeFile(servletElementNames, "META-INF/servlets/java.lang.Object", filer);
         } catch (IOException e) {
             LOG.warning(e.getMessage());
         }
@@ -80,49 +75,6 @@ public class ServletCrossOriginAnnotationProcessor extends AbstractProcessor {
         } else if (elementKind.equals(ElementKind.METHOD)) {
             corsElementNames.add(e.getEnclosingElement().toString());
         }
-    }
-
-    private void writeFile(Set<String> content, String resourceName) throws IOException {
-        FileObject file = readOldFile(content, resourceName);
-        if (file != null) {
-            try {
-                writeFile(content, resourceName, file);
-                return;
-            } catch (IllegalStateException e) {
-                e.printStackTrace();
-            }
-        }
-        writeFile(content, resourceName, null);
-    }
-
-    private void writeFile(Set<String> content, String resourceName, FileObject overrideFile) throws IOException {
-        FileObject file = overrideFile;
-        if (file == null) {
-            file = filer.createResource(StandardLocation.CLASS_OUTPUT, "", resourceName);
-        }
-        try (Writer writer = file.openWriter()) {
-            for (String serviceClassName : content) {
-                writer.write(serviceClassName);
-                writer.write(System.lineSeparator());
-            }
-        }
-    }
-
-    private FileObject readOldFile(Set<String> content, String resourceName) throws IOException {
-        Reader reader = null;
-        try {
-            final FileObject resource = filer.getResource(StandardLocation.CLASS_OUTPUT, "", resourceName);
-            reader = resource.openReader(true);
-            AnnotationProcessorUtil.readOldFile(content, reader);
-            return resource;
-        } catch (FileNotFoundException e) {
-            // close reader, return null
-        } finally {
-            if (reader != null) {
-                reader.close();
-            }
-        }
-        return null;
     }
 
 }
