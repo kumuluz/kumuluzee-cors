@@ -48,6 +48,8 @@ enabled.
 
 ##### @CrossOrigin annotation parameters
 
+ * **name** default: ""
+ 
  * **allowGenericHttpRequests** default: *true*
 
  * **allowOrigin** default: "*"
@@ -66,6 +68,33 @@ enabled.
 
  * **tagRequests** default: *false*
 
+
+Configuration for each annotation can be provided through config framework. Configuration of annotations is provided in namespace ```kumuluzee.cors-filter.annotations.<annotation-name>```. 
+Parameter keys are the same as in anotation, except in kebab-case.
+
+Example of annotation configuration in config:
+```yaml
+kumuluzee:
+  cors-filter:
+    annotations:
+      my-resource:
+        allow-origin: "http://kumuluz.com"
+        allow-subdomains: false
+```
+
+Configuration in config takes priority over values defined in CrossOrigin annotation, however annotation must have name defined so it can be find in config.
+
+Example of named CrossOrigin annotation:
+
+```java
+@RequestScoped
+@Path("/myresource")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+@CrossOrigin(name = "my-resource", allowOrigin = "http://my.origin.com")
+public class MyResource {
+}
+```
 
 ##### Example of using @CrossOrigin annotation
 
@@ -96,7 +125,6 @@ public class MyResource {
         ...
     }
 ```
-
 
 #### CORS servlet filter
 
@@ -155,13 +183,13 @@ The following configuration parameters can be set for CORS filter:
 Example CORS filter configuration (config.yaml):
 ```yaml
 kumuluzee:
-  servlet:
-    cors-filter:
+  cors-filter:
+    servlet:
       allow-generic-http-requests: false
       allow-origin: *
 ```
 
-CORS servlet filter should be used for Servlet applications. It can also be used for the JAX-RS applications, but no @CrossOrigin annotation should be used.
+CORS servlet filter should be used for Servlet applications which dont use @WebServlet annotations. It can also be used for the JAX-RS applications, but no @CrossOrigin annotation should be used.
 
 Remember to restart your web application or server after changing the CORS configuration!
 
