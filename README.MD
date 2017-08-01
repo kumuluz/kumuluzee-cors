@@ -82,7 +82,7 @@ kumuluzee:
         allow-subdomains: false
 ```
 
-Configuration in config takes priority over values defined in CrossOrigin annotation. Annotation's *name* parameter must be provided and it needs to match the config key.
+Configuration in config takes priority over values defined in CrossOrigin annotation. To load the annotation configration from config *name* parameter must be provided and it needs to match the config key.
 
 Example of ***named*** CrossOrigin annotation:
 
