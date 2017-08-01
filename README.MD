@@ -82,7 +82,9 @@ kumuluzee:
         allow-subdomains: false
 ```
 
-Configuration in config takes priority over values defined in CrossOrigin annotation. To load the annotation configration from config *name* parameter must be provided and it needs to match the config key.
+Configuration in config takes priority over values defined in CrossOrigin annotation. To load the annotation configration from config the key of the config must be the same as *name* parameter if name parameter is provided.
+If name parameter is not provided in annotation config key must equal to the name of the class, if annotation is ued on a class, or equal to the <name of class>-<name of method>, if annotation is used on method. 
+If multiple methods share the same name in the same class, annotations must have *name* provided to distinguish between them.
 
 Example of ***named*** CrossOrigin annotation:
 
