@@ -186,7 +186,7 @@ kumuluzee:
   cors-filter:
     servlet:
       allow-generic-http-requests: false
-      allow-origin: *
+      allow-origin: "*"
 ```
 
 CORS servlet filter should be used for Servlet applications which dont use @WebServlet annotations. It can also be used for the JAX-RS applications, but no @CrossOrigin annotation should be used.
