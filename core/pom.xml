@@ -12,7 +12,7 @@
     <groupId>com.kumuluz.ee.cors</groupId>
     <artifactId>kumuluzee-cors-core</artifactId>
 
-    <name>KumuluzEE CORS core</name>
+    <name>KumuluzEE CORS Core</name>
 
     <dependencies>
         <dependency>

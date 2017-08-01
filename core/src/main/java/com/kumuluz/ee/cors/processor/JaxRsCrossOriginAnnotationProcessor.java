@@ -11,6 +11,7 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
+import javax.servlet.annotation.WebServlet;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Path;
 import java.io.IOException;
@@ -52,21 +53,25 @@ public class JaxRsCrossOriginAnnotationProcessor extends AbstractProcessor {
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         Set<? extends Element> elements;
 
+        boolean processed = true;
+
         try {
             Class.forName("javax.ws.rs.core.Application");
         } catch (ClassNotFoundException e) {
-            LOG.info("javax.ws.rs.core.Application not found, skipping JAX-RS CORS");
+            LOG.info("javax.ws.rs.core.Application not found, skipping JAX-RS CORS annotation processing");
             return false;
         }
 
         elements = roundEnv.getElementsAnnotatedWith(CrossOrigin.class);
-        elements.forEach(e -> {
+        for (Element e : elements) {
             if (e.getAnnotation(ApplicationPath.class) != null) {
                 getElementName(applicationElementNames, e);
-            } else {
+            } else if (e.getAnnotation(Path.class) != null) {
                 getElementName(resourceElementNames, e);
+            } else if (e.getAnnotation(WebServlet.class) != null) {
+                processed = false;
             }
-        });
+        }
 
         // If Application level annotation exists scann all resources
         if (applicationElementNames.size() > 0) {
@@ -84,7 +89,7 @@ public class JaxRsCrossOriginAnnotationProcessor extends AbstractProcessor {
             LOG.warning(e.getMessage());
         }
 
-        return true;
+        return processed;
     }
 
     private void getElementName(Set<String> corsElementNames, Element e) {
