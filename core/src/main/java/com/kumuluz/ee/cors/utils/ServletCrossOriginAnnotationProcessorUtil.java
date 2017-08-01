@@ -45,7 +45,7 @@ public class ServletCrossOriginAnnotationProcessorUtil implements CrossOriginAnn
 
                     if (servletCrossOriginAnnotation != null) {
                         CorsConfig servletCorsConfig = new CorsConfig().applyPermitDefaultValues();
-                        CorsConfigUtil.updateCorsConfig(servletCorsConfig, servletCrossOriginAnnotation);
+                        CorsConfigUtil.updateCorsConfig(servletCorsConfig, servletCrossOriginAnnotation, servletClass, null);
 
                         CorsRegistration registration = new CorsRegistration("/" + urlPattern, servletCorsConfig);
 
@@ -58,7 +58,7 @@ public class ServletCrossOriginAnnotationProcessorUtil implements CrossOriginAnn
 
                 if (servletCrossOriginAnnotation != null) {
                     CorsConfig servletCorsConfig = new CorsConfig().applyPermitDefaultValues();
-                    CorsConfigUtil.updateCorsConfig(servletCorsConfig, servletCrossOriginAnnotation);
+                    CorsConfigUtil.updateCorsConfig(servletCorsConfig, servletCrossOriginAnnotation, servletClass, null);
 
                     CorsRegistration registration = new CorsRegistration("", servletCorsConfig);
                     corsRegistrations.add(registration);

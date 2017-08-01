@@ -56,7 +56,7 @@ public class JaxRsCrossOriginAnnotationProcessorUtil implements CrossOriginAnnot
         CorsConfig applicationCorsConfig = null;
         if (applicationCrossOriginAnnotation != null) {
             applicationCorsConfig = new CorsConfig().applyPermitDefaultValues();
-            CorsConfigUtil.updateCorsConfig(applicationCorsConfig, applicationCrossOriginAnnotation);
+            CorsConfigUtil.updateCorsConfig(applicationCorsConfig, applicationCrossOriginAnnotation, applicationClass, null);
         }
 
 
@@ -83,7 +83,7 @@ public class JaxRsCrossOriginAnnotationProcessorUtil implements CrossOriginAnnot
             CorsConfig resourceCorsConfig = null;
             if (resourceCrossOriginAnnotation != null) {
                 resourceCorsConfig = new CorsConfig().applyPermitDefaultValues();
-                CorsConfigUtil.updateCorsConfig(resourceCorsConfig, resourceCrossOriginAnnotation);
+                CorsConfigUtil.updateCorsConfig(resourceCorsConfig, resourceCrossOriginAnnotation, resourceClass, null);
             }
 
             for (Method resourceMethod : Arrays.asList(resourceClass.getMethods())) {
@@ -130,7 +130,7 @@ public class JaxRsCrossOriginAnnotationProcessorUtil implements CrossOriginAnnot
                 if (hasMethodCrossOriginAnnotation) {
 
                     CorsConfig corsConfig = new CorsConfig().applyPermitDefaultValues();
-                    CorsConfigUtil.updateCorsConfig(corsConfig, methodCrossOriginAnnotation);
+                    CorsConfigUtil.updateCorsConfig(corsConfig, methodCrossOriginAnnotation, resourceClass, resourceMethod);
 
                     registration = new CorsRegistration(methodPath, corsConfig);
                 } else if (resourceCorsConfig != null) {
