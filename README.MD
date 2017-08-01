@@ -69,7 +69,7 @@ enabled.
  * **tagRequests** default: *false*
 
 
-Configuration for each annotation can be provided through config framework. Configuration of annotations is provided in namespace ```kumuluzee.cors-filter.annotations.<annotation-name>```. 
+Configuration for each annotation can be provided through config framework. Configuration for annotations is provided in namespace ```kumuluzee.cors-filter.annotations.<annotation-name>```. 
 Parameter keys are the same as in anotation, except in kebab-case.
 
 Example of annotation configuration in config:
@@ -82,9 +82,9 @@ kumuluzee:
         allow-subdomains: false
 ```
 
-Configuration in config takes priority over values defined in CrossOrigin annotation, however annotation must have name defined so it can be find in config.
+Configuration in config takes priority over values defined in CrossOrigin annotation. Annotation's *name* parameter must be provided and it needs to match the config key.
 
-Example of named CrossOrigin annotation:
+Example of ***named*** CrossOrigin annotation:
 
 ```java
 @RequestScoped
