@@ -101,7 +101,7 @@ public class CorsConfig {
     }
 
     public void setMaxAge(String maxAge) {
-        this.maxAge = Integer.getInteger(maxAge);
+        this.maxAge = Integer.parseInt(maxAge);
     }
 
     public Boolean getTagRequests() {
