@@ -7,6 +7,7 @@
     <groupId>com.kumuluz.ee.cors</groupId>
     <artifactId>kumuluzee-cors</artifactId>
     <version>1.0.0-SNAPSHOT</version>
+
     <modules>
         <module>core</module>
     </modules>
@@ -15,6 +16,13 @@
 
     <name>KumuluzEE CORS</name>
 
+    <inceptionYear>2017</inceptionYear>
+    <description>
+        KumuluzEE CORS extension for handling Cross-Origin Resource Sharing (CORS), which makes cross-origin AJAX possible.
+    </description>
+
+    <url>https://ee.kumuluz.com</url>
+
     <properties>
         <kumuluzee.version>2.3.0-SNAPSHOT</kumuluzee.version>
         <cors-filter.version>2.5</cors-filter.version>
@@ -22,14 +30,28 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
+        <nexus.staging.plugin.version>1.6.8</nexus.staging.plugin.version>
+        <gpg.plugin.version>1.6</gpg.plugin.version>
     </properties>
 
-    <inceptionYear>2017</inceptionYear>
-    <description>
-        CORS filter extension for the lightweight Kumuluz EE framework.
-    </description>
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/kumuluz/kumuluzee-cors/issues</url>
+    </issueManagement>
 
-    <url>https://ee.kumuluz.com</url>
+    <developers>
+        <developer>
+            <name>Tilen Faganel</name>
+            <id>tfaga</id>
+            <email>tilen.faganel@me.com</email>
+            <url>https://github.com/TFaga</url>
+        </developer>
+        <developer>
+            <name>Zvone Gazvoda</name>
+            <id>zvonegit</id>
+            <url>https://github.com/zvonegit</url>
+        </developer>
+    </developers>
 
     <licenses>
         <license>
@@ -37,6 +59,13 @@
             <url>http://www.opensource.org/licenses/mit-license.php</url>
         </license>
     </licenses>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <dependencyManagement>
         <dependencies>
@@ -95,7 +124,43 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>${nexus.staging.plugin.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>deploy</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${gpg.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
