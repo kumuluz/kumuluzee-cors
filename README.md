@@ -1,7 +1,7 @@
 # KumuluzEE CORS
 [![Build Status](https://img.shields.io/travis/kumuluz/kumuluzee-cors/master.svg?style=flat)](https://travis-ci.org/kumuluz/kumuluzee-cors)
 
-> KumuluzEE CORS extension for handling Cross-Origin Resource Sharing (CORS), which makes cross-origin AJAX possible.
+> KumuluzEE CORS filter extension for the Kumuluz EE microservice framework. 
 
 KumuluzEE CORS is CORS filter extension for the KumuluzEE microservice framework. It enables fitting of Cross-Origin Resource 
 Sharing support to Java web applications. 
@@ -15,21 +15,20 @@ CORS supports:
  
  
 CORS specification is available at [CORS](https://www.w3.org/TR/cors/).
-
 ## Usage
 
 You can enable the KumuluzEE CORS filter by adding the following dependency:
 ```xml
 <dependency>
     <groupId>com.kumuluz.ee.cors</groupId>
-    <artifactId>kumuluzee-cors-core</artifactId>
+    <artifactId>kumuluzee-cors</artifactId>
     <version>${kumuluzee-cors.version}</version>
 </dependency>
 ```
 
 ### CORS filter configuration
 
-When kumuluzee-cors-core dependnecy is included in the project, CORS filter can be configured in two ways: using **@CrossOrigin** annotation 
+When kumuluzee-cors dependnecy is included in the project, CORS filter can be configured in two ways: using **@CrossOrigin** annotation 
 or using **servlet filter** by providing cors-filter configuration section in prefered config source (i.e. config.yaml, etcd etc.).
 
 
@@ -201,6 +200,7 @@ Remember to restart your web application or server after changing the CORS confi
 
 Recent changes can be viewed on Github on the [Releases Page](https://github.com/kumuluz/kumuluzee-cors/releases)
 
+
 ## Contribute
 
 See the [contributing docs](https://github.com/kumuluz/kumuluzee-cors/blob/master/CONTRIBUTING.md)
@@ -208,9 +208,11 @@ See the [contributing docs](https://github.com/kumuluz/kumuluzee-cors/blob/maste
 When submitting an issue, please follow the 
 [guidelines](https://github.com/kumuluz/kumuluzee-cors/blob/master/CONTRIBUTING.md#bugs).
 
-When submitting a bugfix, write a test that exposes the bug and fails before applying your fix. Submit the test alongside the fix.
+When submitting a bugfix, write a test that exposes the bug and fails before applying your fix. Submit the test 
+alongside the fix.
 
 When submitting a new feature, add tests that cover the feature.
+
 
 ## License
 

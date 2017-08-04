@@ -4,6 +4,7 @@ import com.kumuluz.ee.common.Extension;
 import com.kumuluz.ee.common.ServletServer;
 import com.kumuluz.ee.common.config.EeConfig;
 import com.kumuluz.ee.common.dependencies.*;
+import com.kumuluz.ee.common.runtime.EeRuntime;
 import com.kumuluz.ee.common.wrapper.KumuluzServerWrapper;
 import com.kumuluz.ee.configuration.utils.ConfigurationUtil;
 import com.kumuluz.ee.cors.config.CorsConfig;
@@ -127,7 +128,7 @@ public class CorsExtension implements Extension {
                 }
             }
 
-            boolean isJaxRS = eeConfig.getEeComponents().stream().anyMatch(e -> e.getType().equals(EeComponentType.JAX_RS));
+            boolean isJaxRS = EeRuntime.getInstance().getEeComponents().stream().anyMatch(c -> c.getType().equals(EeComponentType.JAX_RS));
 
             if (!isCrossOriginAnnotationsPresent && corsConfig != null) {
                 servletServer.registerFilter(CORSFilter.class, pathSpec, corsFilterParams);
