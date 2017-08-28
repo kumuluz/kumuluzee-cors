@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 /**
  * @author Zvone Gazvoda
  */
-@EeExtensionDef(name = "Cors", type = EeExtensionType.CORS)
+@EeExtensionDef(name = "Cors", group = EeExtensionGroup.CORS)
 @EeComponentDependencies({@EeComponentDependency(EeComponentType.SERVLET)})
 public class CorsExtension implements Extension {
 
