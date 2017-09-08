@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  * @author Zvone Gazvoda
  */
 @EeExtensionDef(name = "Cors", group = EeExtensionGroup.CORS)
-@EeComponentDependencies({@EeComponentDependency(EeComponentType.SERVLET)})
+@EeComponentDependency(EeComponentType.SERVLET)
 public class CorsExtension implements Extension {
 
     private static final Logger log = Logger.getLogger(CorsExtension.class.getName());

@@ -13,11 +13,12 @@ import java.util.Optional;
 public class CorsConfigUtil {
 
     static void updateCorsConfig(CorsConfig config, CrossOrigin annotation, Class clazz, Method method) {
+
         if (annotation == null) {
             return;
         }
 
-        String key = null;
+        String key;
 
         if (annotation.name().length() != 0) {
             key = annotation.name();
