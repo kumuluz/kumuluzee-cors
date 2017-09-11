@@ -12,6 +12,8 @@ import com.kumuluz.ee.cors.filters.DynamicCorsFilter;
 import com.thetransactioncompany.cors.CORSFilter;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -146,23 +148,25 @@ public class CorsExtension implements Extension {
 
     private Boolean isCrossOriginAnnotationUsed() {
         ClassLoader classLoader = getClass().getClassLoader();
-        URL resourceFileUrl = classLoader.getResource("META-INF/resources/java.lang.Object");
-        URL servletFileUrl = classLoader.getResource("META-INF/servlets/java.lang.Object");
+        InputStream resourceIS = classLoader.getResourceAsStream("META-INF/resources/java.lang.Object");
+        InputStream servletIS = classLoader.getResourceAsStream("META-INF/servlets/java.lang.Object");
 
-        if (resourceFileUrl != null) {
-            File file = new File(resourceFileUrl.getFile());
+        try {
+            if (resourceIS != null) {
 
-            if (file.length() != 0) {
-                return true;
+                if (resourceIS.available() != 0) {
+                    return true;
+                }
             }
-        }
 
-        if (servletFileUrl != null) {
-            File file = new File(servletFileUrl.getFile());
+            if (servletIS != null) {
 
-            if (file.length() != 0) {
-                return true;
+                if (servletIS.available() != 0) {
+                    return true;
+                }
             }
+        } catch (IOException e) {
+            return false;
         }
 
         return false;

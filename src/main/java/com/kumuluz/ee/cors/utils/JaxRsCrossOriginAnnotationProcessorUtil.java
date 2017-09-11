@@ -10,6 +10,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Application;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -152,26 +153,25 @@ public class JaxRsCrossOriginAnnotationProcessorUtil implements CrossOriginAnnot
         List<Class<?>> resourceClasses = new ArrayList<>();
 
         ClassLoader classLoader = getClass().getClassLoader();
-        URL fileUrl = classLoader.getResource("META-INF/resources/java.lang.Object");
-        if (fileUrl != null) {
-            File file = new File(fileUrl.getFile());
+        InputStream is = classLoader.getResourceAsStream("META-INF/resources/java.lang.Object");
 
-            try (Scanner scanner = new Scanner(file)) {
-                while (scanner.hasNextLine()) {
-                    String className = scanner.nextLine();
-                    if (className.startsWith(applicationClass.getPackage().getName())) {
-                        try {
-                            Class resourceClass = Class.forName(className);
-                            resourceClasses.add(resourceClass);
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
-                        }
+        if (is != null) {
+
+            Scanner scanner = new Scanner(is);
+
+            while (scanner.hasNextLine()) {
+                String className = scanner.nextLine();
+                if (className.startsWith(applicationClass.getPackage().getName())) {
+                    try {
+                        Class resourceClass = Class.forName(className);
+                        resourceClasses.add(resourceClass);
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
                     }
                 }
-                scanner.close();
-            } catch (IOException e) {
-                LOG.warning(e.getMessage());
             }
+            scanner.close();
+
         }
 
         return resourceClasses;

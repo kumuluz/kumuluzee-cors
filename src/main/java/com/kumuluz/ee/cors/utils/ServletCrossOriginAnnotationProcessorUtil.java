@@ -7,6 +7,7 @@ import com.kumuluz.ee.cors.config.CorsRegistration;
 import javax.servlet.annotation.WebServlet;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,24 +74,21 @@ public class ServletCrossOriginAnnotationProcessorUtil implements CrossOriginAnn
         List<Class<?>> servletClasses = new ArrayList<>();
 
         ClassLoader classLoader = getClass().getClassLoader();
-        URL fileUrl = classLoader.getResource("META-INF/servlets/java.lang.Object");
-        if (fileUrl != null) {
-            File file = new File(fileUrl.getFile());
+        InputStream is = classLoader.getResourceAsStream("META-INF/servlets/java.lang.Object");
 
-            try (Scanner scanner = new Scanner(file)) {
-                while (scanner.hasNextLine()) {
-                    String className = scanner.nextLine();
-                    try {
-                        Class servletClass = Class.forName(className);
-                        servletClasses.add(servletClass);
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
+        if (is != null) {
+
+            Scanner scanner = new Scanner(is);
+            while (scanner.hasNextLine()) {
+                String className = scanner.nextLine();
+                try {
+                    Class servletClass = Class.forName(className);
+                    servletClasses.add(servletClass);
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
                 }
-                scanner.close();
-            } catch (IOException e) {
-                LOG.warning(e.getMessage());
             }
+            scanner.close();
         }
 
         return servletClasses;
