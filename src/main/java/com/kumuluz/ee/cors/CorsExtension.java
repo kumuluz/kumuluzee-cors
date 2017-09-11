@@ -47,7 +47,7 @@ import java.util.logging.Logger;
  * @since 1.0.0
  */
 @EeExtensionDef(name = "Cors", group = EeExtensionGroup.CORS)
-@EeComponentDependencies({@EeComponentDependency(EeComponentType.SERVLET)})
+@EeComponentDependency(EeComponentType.SERVLET)
 public class CorsExtension implements Extension {
 
     private static final Logger log = Logger.getLogger(CorsExtension.class.getName());

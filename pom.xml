@@ -18,11 +18,13 @@
     <url>https://ee.kumuluz.com</url>
 
     <properties>
-        <kumuluzee.version>2.4.0-SNAPSHOT</kumuluzee.version>
-        <cors-filter.version>2.5</cors-filter.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <kumuluzee.version>2.4.0</kumuluzee.version>
+        <cors-filter.version>2.5</cors-filter.version>
+
         <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
         <nexus.staging.plugin.version>1.6.8</nexus.staging.plugin.version>
         <gpg.plugin.version>1.6</gpg.plugin.version>
@@ -118,20 +120,6 @@
                                 <include>com/kumuluz/ee/cors/processor/*</include>
                             </testIncludes>
                         </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>3.0.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
                     </execution>
                 </executions>
             </plugin>
