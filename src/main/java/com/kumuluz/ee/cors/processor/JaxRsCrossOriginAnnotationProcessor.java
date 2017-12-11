@@ -75,7 +75,6 @@ public class JaxRsCrossOriginAnnotationProcessor extends AbstractProcessor {
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         Set<? extends Element> elements;
 
-        boolean processed = true;
 
         try {
             Class.forName("javax.ws.rs.core.Application");
@@ -90,8 +89,6 @@ public class JaxRsCrossOriginAnnotationProcessor extends AbstractProcessor {
                 getElementName(applicationElementNames, e);
             } else if (e.getAnnotation(Path.class) != null) {
                 getElementName(resourceElementNames, e);
-            } else if (e.getAnnotation(WebServlet.class) != null) {
-                processed = false;
             }
         }
 
@@ -111,7 +108,7 @@ public class JaxRsCrossOriginAnnotationProcessor extends AbstractProcessor {
             LOG.warning(e.getMessage());
         }
 
-        return processed;
+        return false;
     }
 
     private void getElementName(Set<String> corsElementNames, Element e) {

@@ -85,7 +85,7 @@ public class ServletCrossOriginAnnotationProcessor extends AbstractProcessor {
             LOG.warning(e.getMessage());
         }
 
-        return true;
+        return false;
     }
 
     private void getElementName(Set<String> corsElementNames, Element e) {
