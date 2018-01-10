@@ -48,8 +48,6 @@ public class ServletCrossOriginAnnotationProcessor extends AbstractProcessor {
 
     private static final Logger LOG = Logger.getLogger(ServletCrossOriginAnnotationProcessor.class.getName());
 
-    private Set<String> servletElementNames = new HashSet<>();
-
     private Filer filer;
 
     @Override
@@ -73,6 +71,7 @@ public class ServletCrossOriginAnnotationProcessor extends AbstractProcessor {
         Set<? extends Element> elements;
 
         elements = roundEnv.getElementsAnnotatedWith(CrossOrigin.class);
+        Set<String> servletElementNames = new HashSet<>();
         elements.forEach(e -> {
             if (e.getAnnotation(WebServlet.class) != null) {
                 getElementName(servletElementNames, e);
@@ -80,7 +79,9 @@ public class ServletCrossOriginAnnotationProcessor extends AbstractProcessor {
         });
 
         try {
-            AnnotationProcessorUtil.writeFile(servletElementNames, "META-INF/servlets/java.lang.Object", filer);
+            if (!servletElementNames.isEmpty()) {
+                AnnotationProcessorUtil.writeFile(servletElementNames, "META-INF/servlets/java.lang.Object", filer);
+            }
         } catch (IOException e) {
             LOG.warning(e.getMessage());
         }

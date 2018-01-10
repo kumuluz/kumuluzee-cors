@@ -31,7 +31,6 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
-import javax.servlet.annotation.WebServlet;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Path;
 import java.io.IOException;
@@ -49,9 +48,6 @@ import java.util.logging.Logger;
 public class JaxRsCrossOriginAnnotationProcessor extends AbstractProcessor {
 
     private static final Logger LOG = Logger.getLogger(JaxRsCrossOriginAnnotationProcessor.class.getName());
-
-    private Set<String> resourceElementNames = new HashSet<>();
-    private Set<String> applicationElementNames = new HashSet<>();
 
     private Filer filer;
 
@@ -84,6 +80,8 @@ public class JaxRsCrossOriginAnnotationProcessor extends AbstractProcessor {
         }
 
         elements = roundEnv.getElementsAnnotatedWith(CrossOrigin.class);
+        Set<String> resourceElementNames = new HashSet<>();
+        Set<String> applicationElementNames = new HashSet<>();
         for (Element e : elements) {
             if (e.getAnnotation(ApplicationPath.class) != null) {
                 getElementName(applicationElementNames, e);
@@ -102,8 +100,13 @@ public class JaxRsCrossOriginAnnotationProcessor extends AbstractProcessor {
         elements.forEach(e -> getElementName(applicationElementNames, e));
 
         try {
-            AnnotationProcessorUtil.writeFile(resourceElementNames, "META-INF/resources/java.lang.Object", filer);
-            AnnotationProcessorUtil.writeFile(applicationElementNames, "META-INF/services/javax.ws.rs.core.Application", filer);
+            if (!resourceElementNames.isEmpty()) {
+                AnnotationProcessorUtil.writeFile(resourceElementNames, "META-INF/resources/java.lang.Object", filer);
+            }
+            if (!applicationElementNames.isEmpty()) {
+                AnnotationProcessorUtil.writeFile(applicationElementNames, "META-INF/services/javax.ws.rs.core" +
+                        ".Application", filer);
+            }
         } catch (IOException e) {
             LOG.warning(e.getMessage());
         }
