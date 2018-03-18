@@ -86,6 +86,10 @@ public class DynamicCorsFilter implements Filter {
                 path += request.getPathInfo();
             }
 
+            if (path.endsWith("/")) {
+                path = path.substring(0, path.length() - 2);
+            }
+
             CORSConfiguration configuration = getMaxMatchingUrlPatternConfig(path);
 
             if (configuration != null) {
