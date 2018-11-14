@@ -24,6 +24,7 @@ import javax.annotation.processing.Filer;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
 import java.io.*;
+import java.nio.file.NoSuchFileException;
 import java.util.Set;
 
 /**
@@ -64,7 +65,7 @@ public class AnnotationProcessorUtil {
             reader = resource.openReader(true);
             AnnotationProcessorUtil.readOldFile(content, reader);
             return resource;
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException | NoSuchFileException e) {
             // close reader, return null
         } finally {
             if (reader != null) {
