@@ -28,8 +28,8 @@ You can enable the KumuluzEE CORS filter by adding the following dependency:
 
 ### CORS filter configuration
 
-When kumuluzee-cors dependnecy is included in the project, CORS filter can be configured in two ways: using **@CrossOrigin** annotation 
-or using **servlet filter** by providing cors-filter configuration section in prefered config source (i.e. config.yaml, etcd etc.).
+When kumuluzee-cors dependency is included in the project, CORS filter can be configured in two ways: using **@CrossOrigin** annotation 
+or using **servlet filter** by providing cors-filter configuration section in preferred config source (i.e. config.yaml, etcd etc.).
 
 
 #### @CrossOrigin annotation
@@ -40,7 +40,7 @@ Annotation can be put on the following classes of the JAX-RS application:
 * Resource operations
 
 If @CrossOrigin annotation is provided on the Application class, all resources inherit the Cross Origin configuration. Configuration can 
-be overriden by applying @CrossOrigin annotation on the resource class or method of the resource class.
+be overridden by applying @CrossOrigin annotation on the resource class or method of the resource class.
 
 If @CrossOrigin annotation is not provided on the Application class, only resource classes or methods with @CrossOrigin annotation have CORS Filter 
 enabled.
