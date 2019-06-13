@@ -35,6 +35,10 @@ import java.util.Optional;
  */
 public class CorsConfigUtil {
 
+    private CorsConfigUtil() {
+        throw new IllegalStateException("Utility class");
+    }
+
     static void updateCorsConfig(CorsConfig config, CrossOrigin annotation, Class clazz, Method method) {
 
         if (annotation == null) {

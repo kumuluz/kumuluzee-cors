@@ -26,6 +26,7 @@ import javax.tools.StandardLocation;
 import java.io.*;
 import java.nio.file.NoSuchFileException;
 import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  * AnnotationProcessorUtil class.
@@ -34,6 +35,12 @@ import java.util.Set;
  * @since 1.0.0
  */
 public class AnnotationProcessorUtil {
+
+    private AnnotationProcessorUtil() {
+        throw new IllegalStateException("Utility class");
+    }
+
+    private static final Logger log = Logger.getLogger(AnnotationProcessorUtil.class.getName());
 
     private static void readOldFile(Set<String> content, Reader reader) throws IOException {
         try (BufferedReader bufferedReader = new BufferedReader(reader)) {
@@ -52,7 +59,7 @@ public class AnnotationProcessorUtil {
                 writeFile(content, resourceName, file, filer);
                 return;
             } catch (IllegalStateException e) {
-                e.printStackTrace();
+                log.severe("Illegal state. Message: " + e.getMessage());
             }
         }
         writeFile(content, resourceName, null, filer);

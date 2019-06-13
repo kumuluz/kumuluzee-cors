@@ -197,6 +197,7 @@ public class CorsExtension implements Extension {
     }
 
     public void load() {
+        // this extension does not perform any action on load
     }
 
 }

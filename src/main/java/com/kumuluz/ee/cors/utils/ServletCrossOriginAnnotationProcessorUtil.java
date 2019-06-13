@@ -108,7 +108,7 @@ public class ServletCrossOriginAnnotationProcessorUtil implements CrossOriginAnn
                     Class servletClass = Class.forName(className);
                     servletClasses.add(servletClass);
                 } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
+                    LOG.severe("Class not found. Message: " + e.getMessage());
                 }
             }
             scanner.close();

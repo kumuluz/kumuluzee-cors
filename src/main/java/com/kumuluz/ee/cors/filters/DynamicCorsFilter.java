@@ -107,7 +107,7 @@ public class DynamicCorsFilter implements Filter {
 
     @Override
     public void destroy() {
-
+        // on filter destruction
     }
 
     private CORSConfiguration getMaxMatchingUrlPatternConfig(String path) {

@@ -28,12 +28,9 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Application;
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.net.URL;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -80,7 +77,8 @@ public class JaxRsCrossOriginAnnotationProcessorUtil implements CrossOriginAnnot
         CorsConfig applicationCorsConfig = null;
         if (applicationCrossOriginAnnotation != null) {
             applicationCorsConfig = new CorsConfig().applyPermitDefaultValues();
-            CorsConfigUtil.updateCorsConfig(applicationCorsConfig, applicationCrossOriginAnnotation, applicationClass, null);
+            CorsConfigUtil.updateCorsConfig(applicationCorsConfig, applicationCrossOriginAnnotation, applicationClass
+                    , null);
         }
 
 
@@ -137,7 +135,8 @@ public class JaxRsCrossOriginAnnotationProcessorUtil implements CrossOriginAnnot
                         hasMethodCrossOriginAnnotation = true;
                         methodCrossOriginAnnotation = (CrossOrigin) methodAnnotation;
                     } else if (methodAnnotation.annotationType().getAnnotation(HttpMethod.class) != null) {
-                        HttpMethod methodHttpMethodAnnotation = methodAnnotation.annotationType().getAnnotation(HttpMethod.class);
+                        HttpMethod methodHttpMethodAnnotation =
+                                methodAnnotation.annotationType().getAnnotation(HttpMethod.class);
                         methodHttpMethod = methodHttpMethodAnnotation.value();
                     }
                 }
@@ -154,7 +153,8 @@ public class JaxRsCrossOriginAnnotationProcessorUtil implements CrossOriginAnnot
                 if (hasMethodCrossOriginAnnotation) {
 
                     CorsConfig corsConfig = new CorsConfig().applyPermitDefaultValues();
-                    CorsConfigUtil.updateCorsConfig(corsConfig, methodCrossOriginAnnotation, resourceClass, resourceMethod);
+                    CorsConfigUtil.updateCorsConfig(corsConfig, methodCrossOriginAnnotation, resourceClass,
+                            resourceMethod);
 
                     registration = new CorsRegistration(methodPath, corsConfig);
                 } else if (resourceCorsConfig != null) {
@@ -189,7 +189,7 @@ public class JaxRsCrossOriginAnnotationProcessorUtil implements CrossOriginAnnot
                         Class resourceClass = Class.forName(className);
                         resourceClasses.add(resourceClass);
                     } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
+                        LOG.severe("Class not found. Message: " + e.getMessage());
                     }
                 }
             }
