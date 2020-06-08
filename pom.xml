@@ -23,8 +23,8 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <kumuluzee.version>3.2.0</kumuluzee.version>
-        <cors-filter.version>2.6</cors-filter.version>
+        <kumuluzee.version>3.10.0</kumuluzee.version>
+        <cors-filter.version>2.9</cors-filter.version>
 
         <jaxb-api.version>2.3.1</jaxb-api.version>
 
