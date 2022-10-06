@@ -187,6 +187,7 @@ Example CORS filter configuration (config.yaml):
 kumuluzee:
   cors-filter:
     servlet:
+      enabled: true
       allow-generic-http-requests: false
       allow-origin: "*"
 ```
@@ -195,6 +196,9 @@ CORS servlet filter should be used for Servlet applications which don't use @Web
 
 Remember to restart your web application or server after changing the CORS configuration!
 
+##### Disabling CORS Servlet filter
+
+To disable CORS servlet filter, simply set `kumuluzee.cors-filter.servlet.enabled`to `false`.
 
 ## Changelog
 

@@ -63,13 +63,13 @@ public class CorsExtension implements Extension {
 
             ConfigurationUtil cfg = ConfigurationUtil.getInstance();
 
-            Optional<String> corsFilterOpt = cfg.get("kumuluzee.cors-filter.servlet");
+            boolean corsEnabled = cfg.getBoolean("kumuluzee.cors-filter.servlet.enabled").orElse(true);
 
             CorsConfig corsConfig = null;
 
             boolean isCrossOriginAnnotationsPresent = isCrossOriginAnnotationUsed();
 
-            if (corsFilterOpt.isPresent() && !isCrossOriginAnnotationsPresent) {
+            if (corsEnabled && !isCrossOriginAnnotationsPresent) {
 
                 log.info("CORS filter configuration detected.");
 
