@@ -37,6 +37,7 @@ import com.thetransactioncompany.cors.CORSFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -63,7 +64,11 @@ public class CorsExtension implements Extension {
 
             ConfigurationUtil cfg = ConfigurationUtil.getInstance();
 
-            boolean corsEnabled = cfg.getBoolean("kumuluzee.cors-filter.servlet.enabled").orElse(true);
+            boolean corsEnabled = cfg.getBoolean("kumuluzee.cors-filter.servlet.enabled").orElseGet(() -> {
+                Optional<List<String>> mapKeys = cfg.getMapKeys("kumuluzee.cors-filter.servlet");
+
+                return mapKeys.isPresent() && !mapKeys.get().isEmpty();
+            });
 
             CorsConfig corsConfig = null;
 
