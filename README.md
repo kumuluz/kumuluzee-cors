@@ -1,5 +1,5 @@
 # KumuluzEE CORS
-[![Build Status](https://img.shields.io/travis/kumuluz/kumuluzee-cors/master.svg?style=flat)](https://travis-ci.org/kumuluz/kumuluzee-cors)
+[![KumuluzEE CI](https://github.com/kumuluz/kumuluzee-cors/actions/workflows/kumuluzee-ci.yml/badge.svg)](https://github.com/kumuluz/kumuluzee-cors/actions/workflows/kumuluzee-ci.yml)
 
 > KumuluzEE CORS filter extension for the KumuluzEE microservice framework. 
 
@@ -8,10 +8,10 @@ Sharing support to Java web applications.
  
 CORS supports:
 
- * **Browser script perspective**: Allowing cross-domain requests, which are subject to tihter controls on the types of data that is exchanged.
+ * **Browser script perspective**: Allowing cross-domain requests, which are subject to tighter controls on the types of data that is exchanged.
   Cookies, for instance, are blocked unless specifically requested by the XHR author and allowed by the cross-domain web-service.
  * **Web service perspective**: By utilising the origin URL reported by the browser the target cross-domain web service can determine, based 
- on its origin policy, wheather to allow or deny the request.
+ on its origin policy, whether to allow or deny the request.
  
  
 CORS specification is available at [CORS](https://www.w3.org/TR/cors/).
@@ -70,7 +70,7 @@ enabled.
 
 
 Configuration for each annotation can be provided through config framework. Configuration for annotations is provided in namespace ```kumuluzee.cors-filter.annotations.<annotation-name>```. 
-Parameter keys are the same as in anotation, except in kebab-case.
+Parameter keys are the same as in annotation, except in kebab-case.
 
 Example of annotation configuration in config:
 ```yaml
@@ -78,11 +78,11 @@ kumuluzee:
   cors-filter:
     annotations:
       my-resource:
-        allow-origin: "http://kumuluz.com"
+        allow-origin: "https://kumuluz.com"
         allow-subdomains: false
 ```
 
-Configuration in config takes priority over values defined in CrossOrigin annotation. To load the annotation configration from config the key of the config must be the same as *name* parameter if name parameter is provided.
+Configuration in config takes priority over values defined in CrossOrigin annotation. To load the annotation configuration from config the key of the config must be the same as *name* parameter if name parameter is provided.
 If name parameter is not provided in annotation config key must equal to the name of the class, if annotation is used on a class, or equal to the <name of class>-<name of method>, if annotation is used on method. 
 If multiple methods share the same name in the same class, annotations must have *name* provided to distinguish between them.
 
@@ -93,7 +93,7 @@ Example of ***named*** CrossOrigin annotation:
 @Path("/myresource")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-@CrossOrigin(name = "my-resource", allowOrigin = "http://my.origin.com")
+@CrossOrigin(name = "my-resource", allowOrigin = "https://my.origin.com")
 public class MyResource {
 }
 ```
@@ -116,13 +116,13 @@ public class MyApplication extends Application {
 @Path("/myresource")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-@CrossOrigin(allowOrigin = "http://my.origin.com")
+@CrossOrigin(allowOrigin = "https://my.origin.com")
 public class MyResource {
     ...
     
     @GET
     @Path("/test")
-    @CrossOrigin(allowOrigin="http://my-test.origin.com")
+    @CrossOrigin(allowOrigin="https://my-test.origin.com")
     public Response test() {
         ...
     }
@@ -202,7 +202,7 @@ To disable CORS servlet filter, simply set `kumuluzee.cors-filter.servlet.enable
 
 ## Changelog
 
-Recent changes can be viewed on Github on the [Releases Page](https://github.com/kumuluz/kumuluzee-cors/releases)
+Recent changes can be viewed on GitHub on the [Releases Page](https://github.com/kumuluz/kumuluzee-cors/releases)
 
 
 ## Contribute
