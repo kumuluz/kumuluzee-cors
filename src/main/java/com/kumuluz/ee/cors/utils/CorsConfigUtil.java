@@ -60,7 +60,7 @@ public class CorsConfigUtil {
         ConfigurationUtil cfg = ConfigurationUtil.getInstance();
 
         String configKey = "kumuluzee.cors-filter.annotations." + key;
-        Optional<String> corsFilterOpt = cfg.get(configKey);
+        Optional<?> corsFilterOpt = cfg.getMapKeys(configKey);
 
         if (corsFilterOpt.isPresent()) {
             Optional<String> allowGenericHttpRequests = cfg.get(configKey + ".allow-generic-http-requests");
